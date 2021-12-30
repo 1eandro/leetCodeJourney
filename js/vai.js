@@ -1,29 +1,50 @@
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
 
-let removeDuplicates = function (array) {
-    const map = new Map()
+let addToMap = function (array) {
+    map = new Map()
     array.forEach(e => {
-        if (!map.has(e)) map.set(e, 1)
+        if (map.has(e)) {
+            map.set(e, map.get(e) + 1)
+        } else {
+            map.set(e, 1)
+        }
     })
     return map
 }
 
-let roda = function (nums1, nums2) {
+let addNTimes = function (array, value, times) {
+    for (let index = 0; index < times; index++) {
+        array.push(value)
+    }
+}
 
-    const theMap = new Map();
+var intersect = function (nums1, nums2) {
 
-    let distinctMap1 = removeDuplicates(nums1)
-    let distinctMap2 = removeDuplicates(nums2)
-    let answer = []
-    distinctMap1.forEach((value, key) => {
-        if (distinctMap2.has(key)) answer.push(key);
+    let map1 = addToMap(nums1)
+    let map2 = addToMap(nums2)
+    let answer = new Array()
+    map1.forEach((value, key) => {
+        if (map2.has(key)) {
+            let max = value > map2.get(key) ? value : map2.get(key)
+            let difference = Math.abs(value - map2.get(key));
+            let timesToAdd = (max - difference) * 2
+            addNTimes(answer,key, timesToAdd)
+        }
     })
 
     return answer
+};
 
-}
+console.log(intersect([1, 2, 3, 4, 5,5,5], [1, 1, 1,5,5]))
+// console.log(intersect([1, 2, 3, 5, 6, 7, 8, 8, 8, 8], [1, 3, 4, 4]))
 
 
 
-let result = roda([1, 2, 3, 5, 6, 7, 8, 8, 8, 8], [1, 3, 4, 4])
-console.log(result)
-console.log(Array.from(result))
+
+
+
+
